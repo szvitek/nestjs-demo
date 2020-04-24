@@ -1,3 +1,6 @@
+// todo: need a proper setup for env variables for jest
+process.env.DB = 'mongodb://localhost/ecommerce';
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
