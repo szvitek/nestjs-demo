@@ -1,7 +1,11 @@
-import { Schema } from 'mongoose';
+import { Schema, HookNextFunction } from 'mongoose';
+import * as bcrypt from 'bcrypt';
 
 export const UserSchema = new Schema({
-  name: String,
+  username: {
+    type: String,
+    unique: true,
+  },
   password: String,
   seller: {
     type: Boolean,
@@ -19,4 +23,17 @@ export const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+UserSchema.pre('save', async function(next: HookNextFunction) {
+  try {
+    if (!this.isModified('password')) {
+      return next();
+    }
+    const hashed = await bcrypt.hash(this['password'], 10);
+    this['password'] = hashed;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 });
