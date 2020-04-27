@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { jwtSecret } from '../config';
 import { AuthService } from './auth.service';
+import { Payload } from '../types/payload';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -15,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   // Passport will build a user object based on the return value of our validate() method, and attach it as a property on the Request object.
-  async validate(payload: any) {
+  async validate(payload: Payload) {
     const user = await this.authService.validateUser(payload);
     if (!user) {
       throw new UnauthorizedException();
