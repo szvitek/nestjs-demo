@@ -52,4 +52,8 @@ export class UserService {
 
     return this.userModel.findOne({ username });
   }
+
+  async findAll() {
+    return this.userModel.find();
+  }
 }
