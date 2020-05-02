@@ -1,11 +1,3 @@
-// todo: need a proper setup for env variables for jest
-// hacky e2e atm:
-// start debug `Launch Program-TEST`
-// use the same test database as in .env-test
-// run `$ npm run test:e2e`
-process.env.DB = 'mongodb://localhost/ecommerce-test';
-process.env.PORT = '3000';
-
 import { HttpStatus } from '@nestjs/common';
 import * as request from 'supertest';
 import { RegisterDTO, LoginDTO } from '../src/auth/auth.dto';
