@@ -3,12 +3,12 @@ import { User } from './user';
 import { Product } from './product';
 
 interface ProductOrder {
-  products: Product;
+  product: Product;
   quantity: number;
 }
 
 export interface Order extends Document {
-  owner: User;
+  owner: User | string;
   totalPrice: number;
   products: ProductOrder[];
   created: Date;

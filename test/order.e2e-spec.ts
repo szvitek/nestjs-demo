@@ -51,7 +51,6 @@ beforeAll(async () => {
   );
 
   boughtProducts = [data1, data2];
-  console.log(boughtProducts);
 });
 
 afterAll(async () => {
@@ -78,7 +77,7 @@ describe('ORDER', () => {
         expect(
           boughtProducts
             .map(product => product._id)
-            .includes(body.products[0]._id),
+            .includes(body.products[0].product._id),
         ).toBeTruthy();
         expect(body.totalPrice).toEqual(
           boughtProducts.reduce((acc, product) => acc + product.price, 0),
@@ -90,14 +89,14 @@ describe('ORDER', () => {
     return request(app)
       .get('/order')
       .set('Authorization', `Bearer ${buyerToken}`)
-      .expect(HttpStatus.CREATED)
+      .expect(HttpStatus.OK)
       .expect(({ body }) => {
         expect(body.length).toEqual(1);
         expect(body[0].products.length).toEqual(boughtProducts.length);
         expect(
           boughtProducts
             .map(product => product._id)
-            .includes(body[0].products[0]._id),
+            .includes(body[0].products[0].product._id),
         ).toBeTruthy();
       });
   });
