@@ -32,7 +32,6 @@ describe('AUTH', () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let userToken: string;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let sellerToken: string;
 
   it('should register user', () => {
@@ -103,5 +102,12 @@ describe('AUTH', () => {
         expect(body.user.seller).toBeTruthy();
       })
       .expect(HttpStatus.CREATED);
+  });
+
+  it('should respect seller token', () => {
+    return request(app)
+      .get('/product/mine')
+      .set('Authorization', `Bearer ${sellerToken}`)
+      .expect(200);
   });
 });

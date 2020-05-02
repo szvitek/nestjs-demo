@@ -11,8 +11,6 @@ import { tap } from 'rxjs/operators';
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    console.log('before...');
-
     const req = context.switchToHttp().getRequest();
     const { method, url } = req;
     const now = Date.now();

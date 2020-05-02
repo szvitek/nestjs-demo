@@ -55,13 +55,13 @@ export class ProductController {
     @User() user: UserDocument,
   ) {
     const { _id: userId } = user;
-    return this.productService.update(id, product, userId);
+    return this.productService.update(id, product, userId.toString());
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'), SellerGuard)
   async delete(@Param('id') id: string, @User() user: UserDocument) {
     const { _id: userId } = user;
-    return this.productService.delete(id, userId);
+    return this.productService.delete(id, userId.toString());
   }
 }

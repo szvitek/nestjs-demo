@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product } from 'src/types/product';
@@ -19,7 +24,11 @@ export class ProductService {
   }
 
   async findOne(id: string) {
-    return this.productModel.findById(id).populate('owner');
+    const product = await this.productModel.findById(id).populate('owner');
+    if (!product) {
+      throw new HttpException('Product not found', HttpStatus.NO_CONTENT);
+    }
+    return product;
   }
 
   async create(productDTO: CreateProductDTO, user: User) {
@@ -28,7 +37,8 @@ export class ProductService {
       owner: user,
     });
     await product.save();
-    return product.populate('owner');
+    // return product.populate('owner); // doesn't work like this
+    return this.productModel.findById(product._id).populate('owner');
   }
 
   async update(id: string, productDTO: UpdateProductDTO, userId: string) {
@@ -37,7 +47,7 @@ export class ProductService {
       throw new UnauthorizedException('You do not own thos product');
     }
     await product.update(productDTO);
-    return product.populate('owner');
+    return this.productModel.findById(id).populate('owner');
   }
 
   async delete(id: string, userId: string) {
