@@ -89,7 +89,6 @@ describe('PRODUCT', () => {
       .send({ title: 'updated title' })
       .expect(HttpStatus.OK)
       .expect(({ body }) => {
-        console.log(body);
         expect(body._id).toEqual(productId);
         expect(body.title).not.toEqual(product.title);
         expect(body.title).toEqual('updated title');
