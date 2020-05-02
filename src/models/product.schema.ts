@@ -8,7 +8,7 @@ export const ProductSchema = new Schema({
   title: String,
   description: String,
   image: String,
-  price: String,
+  price: Number,
   created: {
     type: Date,
     default: Date.now,
